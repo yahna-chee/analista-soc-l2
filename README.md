@@ -7,6 +7,14 @@ Herramienta web (un solo HTML, sin servidor) que analiza exportaciones de logs S
 - **Informe técnico:** [Informe_SOC_L2_2026-11-04 (v4).pdf](https://yahna-chee.github.io/analista-soc-l2/docs/Informe_SOC_L2_2026-11-04%20%28v4%29.pdf)
 - **Informe del proyecto:** [Informe del proyecto final.pdf](https://yahna-chee.github.io/analista-soc-l2/docs/Informe%20del%20proyecto%20final.pdf)
 
+## Vista rápida
+
+![Demo de la herramienta](docs/img/demo.mp4)
+
+| Herramienta | Informe generado |
+|---|---|
+| ![Análisis de incidentes](docs/img/herramienta.png) | ![Informe técnico en PDF](docs/img/informe.png) |
+
 ## Qué hace
 
 - Carga Excel con mapeo automático de columnas
