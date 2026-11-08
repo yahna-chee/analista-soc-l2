@@ -1,0 +1,97 @@
+# ROL
+Actúa como un Ingeniero de Software Senior especializado en herramientas de ciberseguridad y como Analista SOC Nivel 2 con experiencia en respuesta a incidentes. Vas a construir una aplicación web completa, funcional y lista para demostrar.
+
+# CONTEXTO DEL PROYECTO
+Trabajo en una consultora de ciberseguridad en Estocolmo, Suecia, como nuevo Analista SOC Nivel 2. Un cliente reportó un posible incidente de seguridad en su infraestructura y entregó un archivo Excel (.xlsx) con logs exportados de su SIEM. El archivo puede contener uno o varios incidentes mezclados.
+
+# MISIÓN
+Construir una aplicación web asistida por IA que permita, a partir de los logs del SIEM:
+1. Buscar indicadores de compromiso (IoC).
+2. Correlacionar eventos.
+3. Establecer si hubo uno o varios incidentes.
+4. Generar un informe técnico profesional exportable en PDF.
+
+# REGLA CRÍTICA: RIGOR ANALÍTICO
+- NO inventar hallazgos. Cada conclusión debe estar sustentada estrictamente en los registros del Excel cargado.
+- Cada hallazgo debe citar su evidencia: fila(s) o ID de evento, timestamp, usuario, IP/host, acción y resultado, tal como aparecen en el archivo.
+- Si los datos no alcanzan para concluir algo, la app debe indicarlo explícitamente ("evidencia insuficiente") en lugar de suponer.
+- La IA solo puede redactar, explicar y priorizar a partir de los datos extraídos. Su prompt de sistema debe prohibir añadir IPs, usuarios, hosts, fechas o eventos que no estén en los logs, y debe exigir referenciar las evidencias.
+- Distinguir siempre entre: hecho observado (log), inferencia (razonamiento del analista) y recomendación.
+
+# FUNCIONALIDADES REQUERIDAS (6)
+
+## 01. Carga de archivos
+- Importar el Excel (.xlsx) por selector y drag & drop (soportar múltiples hojas).
+- Detectar automáticamente las columnas (timestamp, usuario, IP origen/destino, host, evento, acción, resultado, severidad, etc.) con mapeo flexible y posibilidad de ajuste manual.
+- Visualizar los datos en una tabla con paginación, búsqueda, filtros por columna, ordenamiento y resaltado de eventos sospechosos.
+- Validar formato y mostrar errores claros, filas totales y rango temporal cubierto.
+
+## 02. Análisis de seguridad
+- Identificar eventos sospechosos mediante reglas deterministas y transparentes, por ejemplo: fuerza bruta (múltiples fallos de autenticación seguidos de un éxito), password spraying, inicios de sesión desde ubicaciones/IP inusuales o fuera de horario, impossible travel, escalada de privilegios, creación/modificación de cuentas, uso de herramientas de administración remota, ejecución sospechosa de comandos/PowerShell, movimiento lateral, accesos a recursos sensibles, exfiltración (grandes transferencias, destinos externos), persistencia, borrado de logs o desactivación de controles de seguridad, conexiones a IPs/dominios sospechosos.
+- Extraer IoC: IPs, dominios, usuarios, hosts, hashes, procesos, comandos y rutas.
+- Correlacionar eventos por usuario, IP, host y ventana de tiempo para reconstruir la cadena de ataque.
+- Agrupar los eventos correlacionados en incidentes individuales y determinar si hay uno o varios, indicando por qué se separan o se unen.
+- Generar una línea de tiempo cronológica por incidente.
+- Mapear cada hallazgo a MITRE ATT&CK (táctica y técnica) solo cuando la evidencia lo respalde.
+- La IA asiste en la interpretación y correlación, pero cada regla disparada debe ser visible y auditable.
+
+## 03. Dashboard
+- Estadísticas y gráficos interactivos por criticidad: total de eventos, eventos sospechosos, incidentes detectados, distribución por severidad (Crítico/Alto/Medio/Bajo), eventos en el tiempo, top IPs, top usuarios, top hosts, distribución por tipo de evento y por táctica MITRE.
+- Los gráficos deben ser interactivos (tooltips, clic para filtrar la tabla de eventos).
+- Tarjetas KPI y filtros por rango de fechas, severidad e incidente.
+
+## 04. Clasificación de riesgos
+- Clasificar cada hallazgo e incidente como Crítico, Alto, Medio o Bajo.
+- Cada clasificación debe incluir una justificación basada en: impacto potencial, activos afectados, evidencia de éxito del atacante, persistencia, alcance y criticidad de las cuentas/hosts.
+- Mostrar el criterio utilizado y permitir ver la evidencia asociada.
+
+## 05. Informe técnico
+Generar un documento estructurado y completo, redactado en español, con:
+1. Portada (título, cliente, analista, fecha, clasificación del documento).
+2. Resumen ejecutivo (lenguaje no técnico).
+3. Alcance y metodología (fuente de datos, rango temporal, número de registros, enfoque de análisis).
+4. Resumen de incidentes identificados (uno o varios).
+5. Hallazgos detallados por incidente: descripción, evidencias (con referencias a filas/IDs), criticidad y justificación, explicación técnica, mapeo MITRE ATT&CK.
+6. Línea de tiempo del ataque.
+7. IoC consolidados (tabla).
+8. Activos y cuentas afectadas.
+9. Impacto potencial.
+10. Plan de acción: contención inmediata, erradicación, recuperación y recomendaciones de mejora/hardening, priorizado y con responsables sugeridos.
+11. Limitaciones del análisis y datos faltantes.
+12. Anexos con las evidencias relevantes.
+- La IA redacta el informe a partir de los hallazgos estructurados, y el usuario puede revisar y editar el texto antes de exportar.
+
+## 06. Exportación
+- Botón para descargar el informe en PDF, con formato profesional (portada, índice, encabezados, tablas, gráficos del dashboard incluidos, numeración de páginas).
+
+# REQUISITOS ADICIONALES
+- **Interfaz**: moderna, intuitiva y fácil de utilizar. Diseño tipo SOC (tema oscuro opcional), navegación clara por pestañas o secciones (Carga → Análisis → Dashboard → Riesgos → Informe → Exportar), diseño responsive, estados de carga y mensajes de error claros.
+- **IA integrada**: debe apoyar el análisis de datos (interpretación y correlación) y la redacción del informe. Incluir un indicador de progreso durante el análisis y un manejo de errores si la IA falla (la app debe seguir funcionando con las reglas deterministas).
+- **Sin Sentinel**: NO se requiere integración con Microsoft Sentinel ni con ningún SIEM. La única fuente de datos es el Excel cargado. El procesamiento debe hacerse en el navegador siempre que sea posible.
+
+# STACK SUGERIDO
+- Aplicación web de una sola página (React + Tailwind, o HTML/JS).
+- SheetJS (xlsx) para leer el Excel.
+- Recharts o Chart.js para gráficos.
+- jsPDF + html2canvas (o equivalente) para exportar el PDF.
+- API de IA para análisis y redacción, con un prompt de sistema estricto contra alucinaciones.
+
+# ENTREGABLES QUE DEBE SOPORTAR LA APP
+1. Informe de seguridad en PDF generado por la aplicación: hallazgos, evidencias, criticidad, explicación técnica y plan de acción.
+2. Flujo demostrable en un video de máximo 5 minutos: carga del Excel → análisis → dashboard → clasificación → informe → generación del PDF. Diseña la app para que este flujo sea fluido y rápido de mostrar.
+
+# CRITERIOS DE ACEPTACIÓN
+- Las 6 funcionalidades operan de principio a fin con el archivo Excel real.
+- Ningún hallazgo del informe carece de evidencia trazable a los logs.
+- Se identifica correctamente si hay uno o varios incidentes y se justifica la separación.
+- El PDF es legible, completo y de aspecto profesional.
+- La interfaz es clara y no requiere instrucciones para usarse.
+
+# FORMA DE TRABAJO
+Antes de programar, muestra brevemente el plan de arquitectura y las reglas de detección que implementarás. Luego entrega el código completo y funcional. No uses datos de ejemplo inventados: la app debe trabajar únicamente con el Excel que cargue el usuario.
+
+# CONFIGURACIÓN DE LA APLICACIÓN
+- Incluir un panel de "Configuración" con los campos: Nombre del analista (valor por defecto: [Nombre_Apellido]), Cliente, Organización/consultora, Clasificación del documento (ej. Confidencial). Estos datos se persisten en localStorage, son editables y alimentan la portada del informe PDF.
+- La API de IA es Google Gemini. NO incluir ninguna API key en el código ni en el repositorio. La app debe incluir un campo seguro (tipo password) para que el usuario ingrese su API Key de Gemini en tiempo de ejecución, almacenarla solo en sessionStorage y no mostrarla en pantalla ni en logs. Si no hay clave configurada o la llamada falla, la app debe seguir funcionando con las reglas deterministas y mostrar un aviso claro.
+- Dejar el modelo de Gemini como constante configurable y usar temperatura baja (0.1–0.3) para reducir alucinaciones.
+- No enviar a la IA más datos de los necesarios: enviar los hallazgos estructurados y las evidencias extraídas, no el Excel completo.
