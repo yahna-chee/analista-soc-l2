@@ -3,9 +3,9 @@
 Herramienta web (un solo HTML, sin servidor) que analiza exportaciones de logs SIEM en Excel, detecta patrones de ataque con reglas deterministas, correlaciona eventos en incidentes y genera un informe técnico en PDF.
 
 - **Demo:** https://yahna-chee.github.io/analista-soc-l2/
-- **Video:** [ASN2_video.mp4](https://github.com/yahna-chee/analista-soc-l2/blob/main/videos/ASN2_video.mp4)
-- **Informe de ejemplo:** [Informe_SOC_L2_2026-11-04 (v4).pdf](https://github.com/yahna-chee/analista-soc-l2/blob/main/docs/Informe_SOC_L2_2026-11-04%20%28v4%29.pdf)
-- **Informe del proyecto:** [Informe del proyecto final.pdf](https://github.com/yahna-chee/analista-soc-l2/blob/main/docs/Informe%20del%20proyecto%20final.pdf)
+- **Video:** [ASN2_video.mp4](https://yahna-chee.github.io/analista-soc-l2/videos/ASN2_video.mp4)
+- **Informe técnico:** [Informe_SOC_L2_2026-11-04 (v4).pdf](https://yahna-chee.github.io/analista-soc-l2/docs/Informe_SOC_L2_2026-11-04%20%28v4%29.pdf)
+- **Informe del proyecto:** [Informe del proyecto final.pdf](https://yahna-chee.github.io/analista-soc-l2/docs/Informe%20del%20proyecto%20final.pdf)
 
 ## Qué hace
 
