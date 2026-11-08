@@ -9,7 +9,7 @@ Herramienta web (un solo HTML, sin servidor) que analiza exportaciones de logs S
 
 ## Vista rápida
 
-![Demo de la herramienta](docs/img/demo.mp4)
+![Demo de la herramienta](docs/img/demo.gif)
 
 | Herramienta | Informe generado |
 |---|---|
